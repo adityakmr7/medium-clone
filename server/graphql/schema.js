@@ -1,25 +1,51 @@
 const { buildSchema } = require("graphql");
-const { AuthSchema } = require("./schemas/Auth");
-const { PostSchema } = require("./schemas/Post");
+const { gql } = require("apollo-server-express");
 
-module.exports = buildSchema(`
-    ${PostSchema}
-    ${AuthSchema}
-    input postInputData {
-        title:String!
-        imageUrl:String!
-        content:String!
-    }
-    type RootQuery {
-        login(email:String, password:String): AuthData!
-        getAllPost: Post! 
-    }
-    type RootMutation { 
-        signUpUser(userInput: signupInput): User!
-        createPost(postInput:postInputData): Post!
-    }
-    schema {
-        query: RootQuery
-        mutation: RootMutation
-    }
-`);
+module.exports = gql`
+  type Post {
+    _id: ID!
+    title: String!
+    content: String!
+    imageUrl: String!
+    creator: User!
+    createdAt: String!
+    updatedAt: String!
+  }
+
+  type User {
+    _id: ID!
+    username: String!
+    email: String!
+    password: String!
+    status: String!
+    posts: [Post!]!
+  }
+  input signupInput {
+    username: String!
+    email: String!
+    password: String!
+  }
+  type AuthData {
+    access_token: String!
+    refresh_token: String!
+    userId: ID!
+  }
+  input postInputData {
+    title: String!
+    imageUrl: String!
+    content: String!
+  }
+
+  type Query {
+    login(email: String, password: String): AuthData!
+    getAllPost: Post!
+  }
+  type Mutation {
+    signUpUser(userInput: signupInput): User!
+    createPost(postInput: postInputData): Post!
+  }
+  schema {
+    query: Query
+    mutation: Mutation
+  }
+`;
