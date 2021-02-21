@@ -36,6 +36,9 @@ const Login = (props) => {
   });
   console.log(data);
   if(data && data.login) {
+      window.localStorage.setItem('access_token', JSON.stringify(data.login.access_token));
+      window.localStorage.setItem('refresh_token', JSON.stringify(data.login.refresh_token));
+
       props.history.push('/dashboard')
   }
 

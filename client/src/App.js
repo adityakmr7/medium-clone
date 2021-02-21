@@ -7,16 +7,18 @@ import Login from "./pages/AuthPage/Login";
 import Register from "./pages/AuthPage/Register";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import HomePage from "./pages/HomePage/HomePage";
+import PublicRoute from './AppRoutes/PublicRoutes';
+import PrivateRoute from './AppRoutes/PrivateRoutes';
 
 function App() {
   return (
     <Main>
       <Navigation/>
       <Switch>
-        <Route path="/" exact component={HomePage} />
-        <Route path="/login" exact component={Login}/>
-        <Route path="/register" exact  component={Register}/>
-        <Route path="/dashboard" exact component={Dashboard}/>
+        <PublicRoute path="/" exact component={HomePage} />
+        <PublicRoute path="/login" exact component={Login}/>
+        <PublicRoute path="/register" exact  component={Register}/>
+        <PrivateRoute path="/dashboard" exact component={Dashboard}/>
       </Switch>
     </Main>
   );
