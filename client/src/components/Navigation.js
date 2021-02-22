@@ -15,6 +15,9 @@ class Navigation extends React.Component {
             <Spacer />
             <Box>
               <Stack direction="row">
+                <Button variant="outline">
+                  Logout
+                </Button>
                 <Button variant="ghost">
                   <Link to="/register">Sign In</Link>
                 </Button>

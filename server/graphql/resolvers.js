@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const validator = require("validator");
 const jwt = require("jsonwebtoken");
 const Post = require("../models/Post");
+const { createTokens } = require("../utils/auth");
 
 module.exports = {
   Query: {
@@ -27,24 +28,9 @@ module.exports = {
         throw error;
       }
 
-      const access_token = jwt.sign(
-        {
-          userId: user._id.toString(),
-          email: user.email,
-        },
-        process.env.SECRET_KEY,
-        { expiresIn: "15min" }
-      );
-      const refresh_token = jwt.sign(
-        {
-          userId: user._id.toString(),
-          email: user.email,
-        },
-        process.env.SECRET_KEY,
-        { expiresIn: "7d" }
-      );
-      res.cookie("refresh_token", refresh_token );
-      res.cookie("access_token", access_token);
+     const {access_token,refresh_token} = createTokens(user); 
+      res.cookie("refresh_token", refresh_token, {maxAge: 60 * 60* 24*7 * 1000} );
+      res.cookie("access_token", access_token, {maxAge:60*15 * 1000});
       return {
         access_token: access_token,
         refresh_token: refresh_token,
