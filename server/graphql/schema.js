@@ -11,7 +11,10 @@ module.exports = gql`
     createdAt: String!
     updatedAt: String!
   }
-
+  type PostData {
+    posts: [Post!]!
+    totalPosts: Int!
+  }
   type User {
     _id: ID!
     username: String!
@@ -38,7 +41,7 @@ module.exports = gql`
 
   type Query {
     login(email: String, password: String): AuthData!
-    getAllPost: Post!
+    posts: PostData
   }
   type Mutation {
     signUpUser(userInput: signupInput): User!

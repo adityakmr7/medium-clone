@@ -1,8 +1,13 @@
 import { Box, Button, Flex, Spacer, Stack, Text } from "@chakra-ui/react";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link,withRouter } from "react-router-dom";
+import Cookies from 'js-cookie';
 class Navigation extends React.Component {
   render() {
+    const logout = () =>{
+      Cookies.remove('access_token');
+      this.props.history.push('/')
+    }
     return (
       <Box bg="white" color="black" h={10} w="100%">
         <Box w="90%" margin="auto">
@@ -15,7 +20,7 @@ class Navigation extends React.Component {
             <Spacer />
             <Box>
               <Stack direction="row">
-                <Button variant="outline">
+                <Button onClick={logout} variant="outline">
                   Logout
                 </Button>
                 <Button variant="ghost">
@@ -33,4 +38,4 @@ class Navigation extends React.Component {
   }
 }
 
-export default Navigation;
+export default withRouter(Navigation);

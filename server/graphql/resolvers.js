@@ -7,10 +7,19 @@ const { createTokens } = require("../utils/auth");
 
 module.exports = {
   Query: {
-    getAllPost: async (args, req) => {
-      const post = await Post.find();
+    posts: async (args, req) => {
+      const posts = await Post.find().sort({ createdAt: -1 });
+      const totalPosts = await Post.find().countDocuments();
       return {
-        ...post._doc,
+        posts: posts.map((p) => {
+          return {
+            ...p._doc,
+            _id: p._id.toString(),
+            createdAt: p.createdAt.toISOString(),
+            updatedAt: p.updatedAt.toISOString(),
+          };
+        }),
+        totalPosts: totalPosts,
       };
     },
     login: async (parent, { email, password }, { res }) => {
@@ -28,9 +37,11 @@ module.exports = {
         throw error;
       }
 
-     const {access_token,refresh_token} = createTokens(user); 
-      res.cookie("refresh_token", refresh_token, {maxAge: 60 * 60* 24*7 * 1000} );
-      res.cookie("access_token", access_token, {maxAge:60*15 * 1000});
+      const { access_token, refresh_token } = createTokens(user);
+      res.cookie("refresh_token", refresh_token, {
+        maxAge: 60 * 60 * 24 * 7 * 1000,
+      });
+      res.cookie("access_token", access_token, { maxAge: 60 * 15 * 1000 });
       return {
         access_token: access_token,
         refresh_token: refresh_token,
@@ -40,7 +51,6 @@ module.exports = {
   },
   Mutation: {
     signUpUser: async (parent, { userInput }) => {
-      
       const { email, username, password } = userInput;
       const errors = [];
       if (!validator.isEmail(email)) {
@@ -80,7 +90,7 @@ module.exports = {
       };
     },
 
-    createPost: async (parent, { postInput }, {req}) => {
+    createPost: async (parent, { postInput }, { req }) => {
       if (!req.isAuth) {
         const error = new Error("Not Authenticated");
         error.code = 401;
