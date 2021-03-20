@@ -8,8 +8,9 @@ const { createTokens } = require("../utils/auth");
 module.exports = {
   Query: {
     posts: async (args, req) => {
-      const posts = await Post.find().sort({ createdAt: -1 });
+      const posts = await Post.find().sort({ createdAt: -1 }).populate('creator');
       const totalPosts = await Post.find().countDocuments();
+
       return {
         posts: posts.map((p) => {
           return {

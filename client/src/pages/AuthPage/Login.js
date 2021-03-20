@@ -11,7 +11,9 @@ import {
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { LOGIN_USER } from "../../apollo/authQuery";
+import { Auth } from "../../constants/Constants";
 
 const Login = (props) => {
   const [login, { data, error, loading }] = useLazyQuery(LOGIN_USER);
@@ -27,19 +29,18 @@ const Login = (props) => {
           password: values.password,
         },
       })
-        // .then((res) => {
-        //     console.log(res);
-        //   props.history.push("/dashboard");
-        // })
-        // .catch((err) => console.log(err));
     },
   });
-  console.log(data);
+  const dispatch = useDispatch();
   if(data && data.login) {
-      window.localStorage.setItem('access_token', JSON.stringify(data.login.access_token));
-      window.localStorage.setItem('refresh_token', JSON.stringify(data.login.refresh_token));
-
       props.history.push('/dashboard')
+      dispatch({
+        type: Auth.USER_LOGGED_IN,
+        payload: {
+          access_token: JSON.stringify(data.login.access_token),
+          refresh_token: JSON.stringify(data.login.refresh_token)
+        }
+      })
   }
 
   const { handleChange, values, handleSubmit } = formik;

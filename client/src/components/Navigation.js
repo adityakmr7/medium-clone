@@ -1,13 +1,17 @@
 import { Box, Button, Flex, Spacer, Stack, Text } from "@chakra-ui/react";
 import React from "react";
-import { Link,withRouter } from "react-router-dom";
-import Cookies from 'js-cookie';
+import { Link, withRouter } from "react-router-dom";
+import Cookies from "js-cookie";
+import { connect } from "react-redux";
 class Navigation extends React.Component {
   render() {
-    const logout = () =>{
-      Cookies.remove('access_token');
-      this.props.history.push('/')
-    }
+
+    const handleLogout = () => {
+      Cookies.remove("access_token");
+      this.props.history.push("/");
+      // TODO:  Store state !isAuthenticated
+    };
+    
     return (
       <Box bg="white" color="black" h={10} w="100%">
         <Box w="90%" margin="auto">
@@ -20,7 +24,7 @@ class Navigation extends React.Component {
             <Spacer />
             <Box>
               <Stack direction="row">
-                <Button onClick={logout} variant="outline">
+                <Button onClick={handleLogout} variant="outline">
                   Logout
                 </Button>
                 <Button variant="ghost">
@@ -38,4 +42,19 @@ class Navigation extends React.Component {
   }
 }
 
-export default withRouter(Navigation);
+const mapStateToProps = (state) => {
+  return { ...state };
+};
+
+const mapDispatchToPros = (dispatch) => {
+  return {
+    logout: dispatch({
+      type: "USER_LOGGED_OUT",
+    }),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToPros
+)(withRouter(Navigation));

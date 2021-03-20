@@ -10,6 +10,12 @@ export const GET_ALL_POST = gql`
         content
         createdAt
         updatedAt
+        creator {
+          _id
+          username
+          
+        }
+        
       }
       totalPosts
     }
