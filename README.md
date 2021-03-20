@@ -10,20 +10,10 @@
 
 ## How to run project
 
-    ##### Client only
+```
+    npm install 
+    npm run dev 
+```
 
-    ```
-    npm run dev:client
-    ```
 
-    ##### Server only
-
-    ```
-    npm run dev:server
-    ```
-
-    ##### Running both
-
-    ```
-    npm run dev:dev
-    ```
+   
