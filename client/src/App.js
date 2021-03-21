@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import "./App.css";
 import Navigation from "./components/Navigation";
 import Main from "./container/Main";
@@ -10,7 +10,10 @@ import HomePage from "./pages/HomePage/HomePage";
 import PublicRoute from './AppRoutes/PublicRoutes';
 import PrivateRoute from './AppRoutes/PrivateRoutes';
 
+
 function App() {
+ 
+
   return (
     <Main>
       <Navigation/>

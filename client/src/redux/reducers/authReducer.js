@@ -14,10 +14,10 @@ const authReducer = (state = initialState, action) => {
       };
     case Auth.USER_LOGGED_OUT:
       return {
+        ...state,
         isAuthenticated: false,
         token: "",
       };
-
     default:
       return { ...state };
   }
