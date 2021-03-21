@@ -1,39 +1,66 @@
-import { Box, Button, Flex, Spacer, Stack, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuGroup,
+  MenuItem,
+  MenuList,
+  Spacer,
+  Stack,
+  Text,
+  Wrap,
+  WrapItem,
+} from "@chakra-ui/react";
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import Cookies from "js-cookie";
 import { connect } from "react-redux";
-import { Auth } from '../constants/Constants';
-import jwt from 'jsonwebtoken';
+import { Auth } from "../constants/Constants";
+import jwt from "jsonwebtoken";
+import { FiBookmark } from 'react-icons/fi';
+import { IoIosNotificationsOutline } from 'react-icons/io';
+import { AiOutlineSearch } from 'react-icons/ai';
+
+
+const iconSize = 30;
 class Navigation extends React.Component {
   componentDidMount() {
-    const token = Cookies.get('access_token');
+    const token = Cookies.get("access_token");
     if (token) {
-      jwt.verify(token, 'SOMESUPERSECRETKEY', (err, decoded) => {
+      jwt.verify(token, "SOMESUPERSECRETKEY", (err, decoded) => {
         const { email, userId } = decoded;
         if (err) {
-          return null
+          return null;
         }
         if (decoded) {
           const payload = { token, email, userId };
-          this.props.login(payload)
+          this.props.login(payload);
         }
-      })
+      });
     }
   }
 
   render() {
-    
-
     const handleLogout = () => {
       Cookies.remove("access_token");
       this.props.history.push("/");
       // TODO:  Store state !isAuthenticated
     };
-    const {isAuthenticated } = this.props.isAuth;
+    const { isAuthenticated } = this.props.isAuth;
     return (
-      <Box bg="white" color="black" h={10} w="100%">
-        <Box w="90%" margin="auto">
+      <Box
+        boxShadow="lg"
+        bg="white"
+        color="black"
+        h={65}
+        marginTop={2}
+        w="100%"
+      >
+        <Box w="80%" margin="auto">
           <Flex justifyContent="center" align="center">
             <Box>
               <Link to="/">
@@ -43,21 +70,75 @@ class Navigation extends React.Component {
             <Spacer />
             <Box>
               <Stack direction="row">
-                {isAuthenticated ?
-                  <Button onClick={() => handleLogout()} variant="outline">
-                    Logout
-                </Button>
-                  :
+                {isAuthenticated ? (
                   <>
-                  <Button variant="ghost">
-                    <Link to="/register">Sign In</Link>
+                    
+                    <AiOutlineSearch size={iconSize}/>
+                    <IoIosNotificationsOutline size={iconSize}/>
+                    <FiBookmark size={iconSize}/>
+                    <Menu>
+                      <MenuButton size="sm" as={Avatar} colorScheme="pink">
+                        <Wrap>
+                          <WrapItem>
+                            <Avatar
+                              size="sm"
+                              name="Kent Dodds"
+                              src="https://bit.ly/kent-c-dodds"
+                            />
+                          </WrapItem>
+                        </Wrap>
+                      </MenuButton>
+                      <MenuList>
+                        <MenuGroup>
+                          <MenuItem>
+                            <Flex alignItems="center" justifyContent="center">
+                              <Box flex={1}>
+                                <Wrap>
+                                  <WrapItem>
+                                    <Avatar
+                                      size="md"
+                                      name="Kent Dodds"
+                                      src="https://bit.ly/kent-c-dodds"
+                                    />
+                                  </WrapItem>
+                                </Wrap>
+                              </Box>
+                              
+                              <Box marginLeft={2} flex={4}>
+                                <Text>Kent C. Dodds</Text>
+                              </Box>
+                            </Flex>
+                          </MenuItem>
+
+                          <MenuDivider />
+                          <MenuItem>Write a story</MenuItem>
+                          <MenuItem>Stories</MenuItem>
+                          <MenuItem>Stats</MenuItem>
+                          <MenuItem>Design your profile</MenuItem>
+                          <MenuItem>Settings</MenuItem>
+                          <MenuDivider />
+                          <MenuItem>Reading List</MenuItem>
+                          <MenuItem>Publications</MenuItem>
+                          <MenuItem>Control your recommendations</MenuItem>
+                          <MenuDivider />
+
+                          <MenuItem onClick={() => handleLogout()}>
+                            Logout
+                          </MenuItem>
+                        </MenuGroup>
+                      </MenuList>
+                    </Menu>
+                  </>
+                ) : (
+                  <>
+                    <Button variant="ghost">
+                      <Link to="/register">Sign In</Link>
                     </Button>
                     <Button variant="outline">
-                  <Link to="/login">Get Started</Link>
-                </Button>
+                      <Link to="/login">Get Started</Link>
+                    </Button>
                   </>
-                  }
-               
+                )}
               </Stack>
             </Box>
           </Flex>
@@ -69,21 +150,22 @@ class Navigation extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    isAuth: state.auth
+    isAuth: state.auth,
   };
 };
 
 const mapDispatchToPros = (dispatch) => {
   return {
-    logout:()=> dispatch({
-      type: Auth.USER_LOGGED_OUT
-    }),
-    login: (payload) => dispatch({
-      type: Auth.USER_LOGGED_IN,
-      payload:payload
-    })
-  }
-   
+    logout: () =>
+      dispatch({
+        type: Auth.USER_LOGGED_OUT,
+      }),
+    login: (payload) =>
+      dispatch({
+        type: Auth.USER_LOGGED_IN,
+        payload: payload,
+      }),
+  };
 };
 
 export default connect(
