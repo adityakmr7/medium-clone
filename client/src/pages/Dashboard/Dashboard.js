@@ -1,9 +1,10 @@
 import { useQuery } from "@apollo/client";
 import React from "react";
 import { GET_ALL_POST } from "../../apollo/postQuery";
-import { Box, Container, SimpleGrid, Spinner, Text } from "@chakra-ui/react";
+import { Box, Container, Flex, SimpleGrid, Spinner, Text } from "@chakra-ui/react";
+import { humanReadableDate } from "../../utils/DateFormater";
 
-const Dashboard = () => {
+const Dashboard = (props) => {
   const { loading, error, data } = useQuery(GET_ALL_POST);
   if (loading) {
     return (
@@ -23,28 +24,32 @@ const Dashboard = () => {
       </Box>
     );
   }
+
+  const handleNavigateToDetail = (id) => {
+    props.history.push(`/dashboard/${id}`);
+  }
   return (
     
-    <Container width={'100%'}>
-        <SimpleGrid width="100%">
+    <Box margin="auto" width="80%" >
+        <Flex>
         {data &&
           data.posts &&
           data.posts.posts &&
           data.posts.posts.map((post, i) => {
             return (
-              <Box boxShadow="lg" key={i} m={5} >
+              <Box onClick={() =>handleNavigateToDetail(post._id)} boxShadow="lg" key={i} m={2} >
                 <Box marginLeft={5} margin="10">
-                <Text>{post.title}</Text>
+                <Text fontSize="5xl">{post.title}</Text>
                 <Text>{post.content}</Text>
-                <Text>{post.createdAt}</Text>
-                <Text>{post.updatedAt}</Text>
+                <Text>{humanReadableDate(post.createdAt)}</Text>
+                <Text>{humanReadableDate(post.updatedAt)}</Text>
                   <Text>{post.creator.username}</Text>
                   </Box>
               </Box>
             );
           })}
-          </SimpleGrid>
-      </Container>
+          </Flex>
+      </Box>
 
   );
 };

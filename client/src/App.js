@@ -9,11 +9,10 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import HomePage from "./pages/HomePage/HomePage";
 import PublicRoute from './AppRoutes/PublicRoutes';
 import PrivateRoute from './AppRoutes/PrivateRoutes';
+import PostDetail from "./pages/Dashboard/PostDetail";
 
 
 function App() {
- 
-
   return (
     <Main>
       <Navigation/>
@@ -21,7 +20,8 @@ function App() {
         <PublicRoute path="/" exact component={HomePage} />
         <PublicRoute path="/login" exact component={Login}/>
         <PublicRoute path="/register" exact  component={Register}/>
-        <PrivateRoute path="/dashboard" exact component={Dashboard}/>
+        <PrivateRoute path="/dashboard" exact component={Dashboard} />
+        <PrivateRoute path="/dashboard/:id" exact component={PostDetail}/>
       </Switch>
     </Main>
   );

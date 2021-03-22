@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const slug = require('slug');
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema(
@@ -15,6 +15,11 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
+    slug: {
+      type: String,
+      required: true,
+      lowercase:true
+    },
     creator: {
       type: Schema.Types.ObjectId,
       ref: "User",
@@ -26,4 +31,16 @@ const postSchema = new Schema(
     timestamps: true,
   }
 );
+
+postSchema.pre('validate', function (next) {
+  if (this.slug) {
+    this.slugify();
+  }
+  next();
+})
+postSchema.methods.slugify = function () {
+  this.slug = slug(this.title) + '-' + (Math.random() * Math.pow(36, 6) | 0).toString(36);
+}
+
+
 module.exports = mongoose.model("Post", postSchema);
