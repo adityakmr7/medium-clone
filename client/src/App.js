@@ -10,19 +10,24 @@ import HomePage from "./pages/HomePage/HomePage";
 import PublicRoute from './AppRoutes/PublicRoutes';
 import PrivateRoute from './AppRoutes/PrivateRoutes';
 import PostDetail from "./pages/Dashboard/PostDetail";
+import CreatePost from "./pages/Dashboard/CreatePost";
+import { Box } from "@chakra-ui/layout";
 
 
 function App() {
   return (
     <Main>
-      <Navigation/>
+      <Navigation />
+      <Box width="container.lg" margin="auto">
       <Switch>
         <PublicRoute path="/" exact component={HomePage} />
         <PublicRoute path="/login" exact component={Login}/>
         <PublicRoute path="/register" exact  component={Register}/>
         <PrivateRoute path="/dashboard" exact component={Dashboard} />
-        <PrivateRoute path="/dashboard/:id" exact component={PostDetail}/>
-      </Switch>
+        <PrivateRoute path="/create" exact component={CreatePost}/>
+        <PrivateRoute path="/dashboard/:id" exact component={PostDetail} />
+        </Switch>
+        </Box>
     </Main>
   );
 }

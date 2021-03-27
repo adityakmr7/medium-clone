@@ -15,6 +15,15 @@ module.exports = gql`
     posts: [Post!]!
     totalPosts: Int!
   }
+  type Profile {
+    _id: ID!
+    firstName: String!
+    lastName: String!
+    bio:String!
+    profilePic: String!
+    username: String!
+    url: String!
+  }
   type User {
     _id: ID!
     username: String!
@@ -22,6 +31,7 @@ module.exports = gql`
     password: String!
     status: String!
     posts: [Post!]!
+    profile: Profile
   }
   input signupInput {
     username: String!
@@ -38,7 +48,14 @@ module.exports = gql`
     imageUrl: String!
     content: String!
   }
-
+  input profileInputData {
+    firstName: String!
+    lastName: String!
+    bio:String!
+    profilePic: String!
+    username: String!
+    url: String!
+  },
   type Query {
     login(email: String, password: String): AuthData!
     posts: PostData
@@ -46,6 +63,7 @@ module.exports = gql`
   type Mutation {
     signUpUser(userInput: signupInput): User!
     createPost(postInput: postInputData): Post!
+    updateProfile(profileInput: profileInputData) : Profile!
   }
   schema {
     query: Query

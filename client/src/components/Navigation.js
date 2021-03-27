@@ -21,10 +21,10 @@ import Cookies from "js-cookie";
 import { connect } from "react-redux";
 import { Auth } from "../constants/Constants";
 import jwt from "jsonwebtoken";
-import { FiBookmark } from 'react-icons/fi';
-import { IoIosNotificationsOutline } from 'react-icons/io';
-import { AiOutlineSearch } from 'react-icons/ai';
-
+import { FiBookmark } from "react-icons/fi";
+import { IoIosNotificationsOutline } from "react-icons/io";
+import { AiOutlineSearch } from "react-icons/ai";
+import { route1, route2 } from "./RoutesConstants";
 
 const iconSize = 30;
 class Navigation extends React.Component {
@@ -50,6 +50,7 @@ class Navigation extends React.Component {
       this.props.history.push("/");
       // TODO:  Store state !isAuthenticated
     };
+    
     const { isAuthenticated } = this.props.isAuth;
     return (
       <Box
@@ -60,7 +61,7 @@ class Navigation extends React.Component {
         marginTop={2}
         w="100%"
       >
-        <Box w="80%" margin="auto">
+        <Box w="container.lg" margin="auto">
           <Flex justifyContent="center" align="center">
             <Box>
               <Link to="/">
@@ -72,12 +73,11 @@ class Navigation extends React.Component {
               <Stack direction="row">
                 {isAuthenticated ? (
                   <>
-                    
-                    <AiOutlineSearch size={iconSize}/>
-                    <IoIosNotificationsOutline size={iconSize}/>
-                    <FiBookmark size={iconSize}/>
+                    <AiOutlineSearch size={iconSize} />
+                    <IoIosNotificationsOutline size={iconSize} />
+                    <FiBookmark size={iconSize} />
                     <Menu>
-                      <MenuButton size="sm" as={Avatar} colorScheme="pink">
+                      <MenuButton cursor="pointer" size="sm" as={Avatar} colorScheme="pink">
                         <Wrap>
                           <WrapItem>
                             <Avatar
@@ -103,7 +103,7 @@ class Navigation extends React.Component {
                                   </WrapItem>
                                 </Wrap>
                               </Box>
-                              
+
                               <Box marginLeft={2} flex={4}>
                                 <Text>Kent C. Dodds</Text>
                               </Box>
@@ -111,17 +111,18 @@ class Navigation extends React.Component {
                           </MenuItem>
 
                           <MenuDivider />
-                          <MenuItem>Write a story</MenuItem>
-                          <MenuItem>Stories</MenuItem>
-                          <MenuItem>Stats</MenuItem>
-                          <MenuItem>Design your profile</MenuItem>
-                          <MenuItem>Settings</MenuItem>
+                          {route1.map((item, i) => (
+                            <MenuItem key={i}>
+                              <Link to={item.path}>{item.route}</Link>
+                            </MenuItem>
+                          ))}
                           <MenuDivider />
-                          <MenuItem>Reading List</MenuItem>
-                          <MenuItem>Publications</MenuItem>
-                          <MenuItem>Control your recommendations</MenuItem>
+                          {route2.map((item, i) => (
+                            <MenuItem key={i}>
+                            <Link to={item.path}>{item.route}</Link>
+                          </MenuItem>
+                          ))}
                           <MenuDivider />
-
                           <MenuItem onClick={() => handleLogout()}>
                             Logout
                           </MenuItem>

@@ -4,13 +4,13 @@ const validator = require("validator");
 const jwt = require("jsonwebtoken");
 const Post = require("../models/Post");
 const { createTokens } = require("../utils/auth");
+const Profile = require("../models/Profile");
 
 module.exports = {
   Query: {
     posts: async (args, req) => {
       const posts = await Post.find().sort({ createdAt: -1 }).populate('creator');
       const totalPosts = await Post.find().countDocuments();
-
       return {
         posts: posts.map((p) => {
           return {
@@ -84,13 +84,27 @@ module.exports = {
         password: hashedPassword,
         username: username,
       });
+      
       const createdUser = await user.save();
+      
       return {
         ...createdUser._doc,
         _id: createdUser._id.toString(),
       };
     },
 
+    updateProfile: async (parent, { profileInput }, { req }) => {
+      const {firstName,
+        lastName,
+        bio,
+        profilePic,
+        username,
+        url } = profileInput;
+      
+    },  
+    /**
+     * Create User Post
+     */
     createPost: async (parent, { postInput }, { req }) => {
       if (!req.isAuth) {
         const error = new Error("Not Authenticated");
