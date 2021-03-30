@@ -10,6 +10,7 @@ module.exports = gql`
     creator: User!
     createdAt: String!
     updatedAt: String!
+    slug:String!
   }
   type PostData {
     posts: [Post!]!
@@ -51,10 +52,10 @@ module.exports = gql`
   input profileInputData {
     firstName: String!
     lastName: String!
-    bio:String!
-    profilePic: String!
-    username: String!
-    url: String!
+    bio:String
+    profilePic: String
+    username: String
+    url: String
   },
   type Query {
     login(email: String, password: String): AuthData!

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const uniqueValidator = require('mongoose-unique-validator');
 const Schema = mongoose.Schema;
 
 const userSchema = new mongoose.Schema(
@@ -6,6 +7,7 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
+      unique:true,
     },
     password: {
       type: String,
@@ -14,6 +16,7 @@ const userSchema = new mongoose.Schema(
     username: {
       type: String,
       required: true,
+      unique:true
     },
     status: {
       type: String,
@@ -25,13 +28,10 @@ const userSchema = new mongoose.Schema(
         ref: "Post",
       },
     ],
-    profile: {
-      type: Schema.Types.ObjectId,
-      ref: "Profile",
-    },
   },
   { timestamps: true }
 );
 
 
+userSchema.plugin(uniqueValidator, {message: 'is already taken.'});
 module.exports = mongoose.model("User", userSchema);

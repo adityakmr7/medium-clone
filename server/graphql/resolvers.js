@@ -6,6 +6,7 @@ const Post = require("../models/Post");
 const { createTokens } = require("../utils/auth");
 const Profile = require("../models/Profile");
 
+
 module.exports = {
   Query: {
     posts: async (args, req) => {
@@ -84,9 +85,11 @@ module.exports = {
         password: hashedPassword,
         username: username,
       });
-      
+      const profile = new Profile();
       const createdUser = await user.save();
-      
+      profile.username = username;
+      profile.user = createdUser._id;
+      await profile.save();
       return {
         ...createdUser._doc,
         _id: createdUser._id.toString(),
@@ -94,12 +97,37 @@ module.exports = {
     },
 
     updateProfile: async (parent, { profileInput }, { req }) => {
-      const {firstName,
+      // ToDO: To be added
+      const { firstName,
         lastName,
         bio,
         profilePic,
         username,
         url } = profileInput;
+      
+      const accessToken = req.cookies['access_token'];
+      const userValue = jwt.decode(accessToken);
+      const userId = userValue.userId;
+      const toUpdate = await Profile.findOne({ user: userId });
+
+
+      
+      // const user = await User.findById(userId);
+
+      const profile = new Profile();
+      profile.firstName = firstName;
+      profile.lastName = lastName;
+      profile.bio = bio;
+      profile.profilePic = profilePic;
+      profile.username = username;
+      profile.url = url;
+      const userUpdated = await user.save();
+      return {
+        ...userUpdated._doc,
+        _id: userUpdated._id.toString(),
+        createdAt: userUpdated.createdAt.toString(),
+        updatedAt: userUpdated.updatedAt.toString(),
+      };
       
     },  
     /**

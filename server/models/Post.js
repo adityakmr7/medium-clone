@@ -17,8 +17,8 @@ const postSchema = new Schema(
     },
     slug: {
       type: String,
-      required: true,
-      lowercase:true
+      lowercase: true,
+      slug:"title"
     },
     creator: {
       type: Schema.Types.ObjectId,
@@ -33,7 +33,7 @@ const postSchema = new Schema(
 );
 
 postSchema.pre('validate', function (next) {
-  if (this.slug) {
+  if (this.title) {
     this.slugify();
   }
   next();
