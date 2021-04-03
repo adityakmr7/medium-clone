@@ -18,7 +18,7 @@ const profileSchema = new mongoose.Schema(
     },
     username: {
       type: String,
-      unique: true,
+      
     },
     url: {
       type: String,

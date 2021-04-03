@@ -85,13 +85,16 @@ module.exports = {
         password: hashedPassword,
         username: username,
       });
-      const profile = new Profile();
+    
       const createdUser = await user.save();
-      profile.username = username;
+      
+      const profile = new Profile();
+      profile.username = createdUser.username;
       profile.user = createdUser._id;
       await profile.save();
       return {
         ...createdUser._doc,
+        ...profile._doc,
         _id: createdUser._id.toString(),
       };
     },
@@ -108,25 +111,32 @@ module.exports = {
       const accessToken = req.cookies['access_token'];
       const userValue = jwt.decode(accessToken);
       const userId = userValue.userId;
-      const toUpdate = await Profile.findOne({ user: userId });
+      const userUsername = userValue.username;
 
 
+      const getProfile = await  Profile.findOne({ 'user': userId });
       
-      // const user = await User.findById(userId);
+      let profileUpdated;
+      if (getProfile) {
+        getProfile.firstName = firstName;
+        getProfile.lastName = lastName;
+        getProfile.bio = bio;
+        getProfile.profilePic = profilePic;
+        getProfile.username = username !== "" ? username : getProfile.username;
+        getProfile.url = url;
+        profileUpdated = await getProfile.save();
+      }
 
-      const profile = new Profile();
-      profile.firstName = firstName;
-      profile.lastName = lastName;
-      profile.bio = bio;
-      profile.profilePic = profilePic;
-      profile.username = username;
-      profile.url = url;
-      const userUpdated = await user.save();
+      const user = await User.findById(userId);
+
+      user.username = profileUpdated.username;
+      // user.profile = profileUpdated._id
+      await user.save();
       return {
-        ...userUpdated._doc,
-        _id: userUpdated._id.toString(),
-        createdAt: userUpdated.createdAt.toString(),
-        updatedAt: userUpdated.updatedAt.toString(),
+        ...profileUpdated._doc,
+        _id: profileUpdated._id.toString(),
+        createdAt: profileUpdated.createdAt.toString(),
+        updatedAt: profileUpdated.updatedAt.toString(),
       };
       
     },  
