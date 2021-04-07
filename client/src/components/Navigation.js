@@ -91,6 +91,7 @@ class Navigation extends React.Component {
                       <MenuList>
                         <MenuGroup>
                           <MenuItem>
+                          <Link to="/profile">
                             <Flex alignItems="center" justifyContent="center">
                               <Box flex={1}>
                                 <Wrap>
@@ -108,6 +109,7 @@ class Navigation extends React.Component {
                                 <Text>Kent C. Dodds</Text>
                               </Box>
                             </Flex>
+</Link>
                           </MenuItem>
 
                           <MenuDivider />

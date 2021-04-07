@@ -9,6 +9,10 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const auth = require("./middleware/auth");
 const User = require("./models/User");
+const multer = require("multer");
+const path = require('path');
+const fs = require('fs');
+const { v4: uuidv4 } = require("uuid");
 
 const startServer = async () => {
   const app = express();
@@ -28,6 +32,52 @@ const startServer = async () => {
     context: ({ req, res }) => ({ req, res }),
   });
   app.use(cookieParser());
+
+  const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, "public/images");
+    },
+    filename: (req, file, cb) => {
+      cb(null, uuidv4() + "-" + file.originalname);
+    },
+  });
+  
+  const fileFilter = (req, file, cb) => {
+    if (
+      file.mimetype === "image/png" ||
+      file.mimetype === "image/jpg" ||
+      file.mimetype === "image/jpeg"
+    ) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+    }
+  };
+  app.use(
+    multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
+  );
+
+  const clearImage = filePath => {
+    filePath = path.join(__dirname, '..', filePath);
+    fs.unlink(filePath, err => console.log(err));
+  }
+
+  // Save the image in file and then image link will be passed to 
+  // graphql image field
+  
+  app.put('/post-image', (req, res, next) => {
+    if (!req.file) {
+      return res.status(200).json({
+        message: 'No file Provided'
+      })
+    }
+    if (req.body.oldPath) {
+      clearImage(req.body.oldPath);
+
+    }
+    return res.status(201).json({ message: 'File Stored', filePath: req.file.path });
+  })
+
 
   app.use(async (req, res, next) => {
     const accessToken = req.cookies["access_token"];
