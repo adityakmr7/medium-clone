@@ -19,11 +19,11 @@ import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import Cookies from "js-cookie";
 import { connect } from "react-redux";
-import { Auth } from "../constants/Constants";
 import jwt from "jsonwebtoken";
 import { FiBookmark } from "react-icons/fi";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { AiOutlineSearch } from "react-icons/ai";
+import { Auth } from "../constants/Constants";
 import { route1, route2 } from "./RoutesConstants";
 
 const iconSize = 30;
@@ -113,14 +113,14 @@ class Navigation extends React.Component {
                           </MenuItem>
 
                           <MenuDivider />
-                          {route1.map((item, i) => (
-                            <MenuItem key={i}>
+                          {route1.map((item, _) => (
+                            <MenuItem key={item.id}>
                               <Link to={item.path}>{item.route}</Link>
                             </MenuItem>
                           ))}
                           <MenuDivider />
-                          {route2.map((item, i) => (
-                            <MenuItem key={i}>
+                          {route2.map((item, _) => (
+                            <MenuItem key={item.id}>
                             <Link to={item.path}>{item.route}</Link>
                           </MenuItem>
                           ))}
@@ -151,14 +151,11 @@ class Navigation extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
+const mapStateToProps = (state) => ({
     isAuth: state.auth,
-  };
-};
+  });
 
-const mapDispatchToPros = (dispatch) => {
-  return {
+const mapDispatchToPros = (dispatch) => ({
     logout: () =>
       dispatch({
         type: Auth.USER_LOGGED_OUT,
@@ -166,10 +163,9 @@ const mapDispatchToPros = (dispatch) => {
     login: (payload) =>
       dispatch({
         type: Auth.USER_LOGGED_IN,
-        payload: payload,
+        payload,
       }),
-  };
-};
+  });
 
 export default connect(
   mapStateToProps,

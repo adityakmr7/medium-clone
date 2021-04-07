@@ -1,10 +1,9 @@
 import React from 'react';
 import {Box} from '@chakra-ui/react'
-const Profile = () => {
-    return (
+
+const Profile = () => (
         <Box>
             Profile
         </Box>
     )
-}
 export default Profile;
