@@ -1,5 +1,7 @@
 # Medium Clone FullStack
 
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/adityakmr7/medium-clone/blob/main/LICENSE)
+
 ## Teach stack
 
     - NodeJS
