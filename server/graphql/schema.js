@@ -60,7 +60,7 @@ module.exports = gql`
   type Query {
     login(email: String, password: String): AuthData!
     posts: PostData
-    postsByUser:[PostData]
+    postsByUser:PostData
   }
   type Mutation {
     signUpUser(userInput: signupInput): User!

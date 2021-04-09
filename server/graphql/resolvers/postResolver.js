@@ -18,6 +18,7 @@ const getPost = async (args, req) => {
       };
 }
 
+// Find Posts by user id 
 const getPostByUser = async (parent,_, {req}) => {
     console.log(req.isAuth);
     if (!req.isAuth) {
@@ -25,22 +26,19 @@ const getPostByUser = async (parent,_, {req}) => {
         error.code = 401;
         throw error;
     }
-    const user = await User.findById(req.userId);
-
-    const postWithUser = user.populate('posts');
-    console.log(postWithUser);
-    const p = postWithUser;
-    const totalPosts = 3
-    return {
-        posts:
-          {
+    const posts = await Post.find({ creator: req.userId }).sort({createdAt : -1}).populate('creator');
+    const postsCount = await Post.find({ creator: req.userId }).countDocuments();
+  
+     return {
+        posts: posts.map((p) => {
+          return {
             ...p._doc,
             _id: p._id.toString(),
             createdAt: p.createdAt.toISOString(),
             updatedAt: p.updatedAt.toISOString(),
-          }
-        ,
-        totalPosts: totalPosts,
+          };
+        }),
+        totalPosts:postsCount
       }
 }
 const createNewPost = async (parent, { postInput }, { req }) => {

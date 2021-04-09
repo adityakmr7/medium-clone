@@ -19,3 +19,23 @@ export const GET_ALL_POST = gql`
     }
   }
 `;
+
+export const GET_POST_BY_USER = gql`
+  query postsByUser {
+    posts {
+      posts {
+        title
+        _id
+        imageUrl
+        content
+        createdAt
+        updatedAt
+        creator {
+          _id
+          username
+        }
+      }
+      totalPosts
+    }
+  }
+`;

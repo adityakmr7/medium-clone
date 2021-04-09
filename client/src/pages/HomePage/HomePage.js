@@ -25,7 +25,7 @@ const HomePage = (props) => {
   };
   return (
     <Box margin="auto" width="100%">
-      <Flex>
+      <Flex width="100%" flexDirection="column">
         {data &&
           data.posts &&
           data.posts.posts &&
