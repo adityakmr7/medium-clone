@@ -28,19 +28,19 @@ const Login = (props) => {
           email: values.email,
           password: values.password,
         },
-      })
+      });
     },
   });
   const dispatch = useDispatch();
-  if(data && data.login) {
-      props.history.push('/dashboard')
-      dispatch({
-        type: Auth.USER_LOGGED_IN,
-        payload: {
-          access_token: JSON.stringify(data.login.access_token),
-          refresh_token: JSON.stringify(data.login.refresh_token)
-        }
-      })
+  if (data && data.login) {
+    props.history.push("/dashboard");
+    dispatch({
+      type: Auth.USER_LOGGED_IN,
+      payload: {
+        access_token: JSON.stringify(data.login.access_token),
+        refresh_token: JSON.stringify(data.login.refresh_token),
+      },
+    });
   }
 
   const { handleChange, values, handleSubmit } = formik;

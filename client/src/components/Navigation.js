@@ -19,78 +19,60 @@ import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import Cookies from "js-cookie";
 import { connect } from "react-redux";
-import jwt from "jsonwebtoken";
 import { FiBookmark } from "react-icons/fi";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { AiOutlineSearch } from "react-icons/ai";
 import { Auth } from "../constants/Constants";
 import { route1, route2 } from "./RoutesConstants";
+import { checkAuth } from "../utils/checkAuth";
 
 const iconSize = 30;
-class Navigation extends React.Component {
-  componentDidMount() {
-    const token = Cookies.get("access_token");
-    if (token) {
-      jwt.verify(token, "SOMESUPERSECRETKEY", (err, decoded) => {
-        const { email, userId } = decoded;
-        if (err) {
-          return null;
-        }
-        if (decoded) {
-          const payload = { token, email, userId };
-          this.props.login(payload);
-        }
-      });
-    }
-  }
+const Navigation = ({ history, isAuth }) => {
+  const handleLogout = () => {
+    Cookies.remove("access_token");
+    window.location.reload(); // Just to clear cookie
+    // history.push("/");
+  };
 
-  render() {
-    const handleLogout = () => {
-      Cookies.remove("access_token");
-      this.props.history.push("/");
-      // TODO:  Store state !isAuthenticated
-    };
-    
-    const { isAuthenticated } = this.props.isAuth;
-    return (
-      <Box
-        boxShadow="lg"
-        bg="white"
-        color="black"
-        h={65}
-        marginTop={2}
-        w="100%"
-      >
-        <Box w="container.lg" margin="auto">
-          <Flex justifyContent="center" align="center">
-            <Box>
-              <Link to="/">
-                <Text fontSize="4xl">WRITER</Text>
-              </Link>
-            </Box>
-            <Spacer />
-            <Box>
-              <Stack direction="row">
-                {isAuthenticated ? (
-                  <>
-                    <AiOutlineSearch size={iconSize} />
-                    <IoIosNotificationsOutline size={iconSize} />
-                    <FiBookmark size={iconSize} />
-                    <Menu>
-                      <MenuButton cursor="pointer" size="sm" as={Avatar} colorScheme="pink">
-                        <Wrap>
-                          <WrapItem>
-                            <Avatar
-                              size="sm"
-                              name="Kent Dodds"
-                              src="https://bit.ly/kent-c-dodds"
-                            />
-                          </WrapItem>
-                        </Wrap>
-                      </MenuButton>
-                      <MenuList>
-                        <MenuGroup>
-                          <MenuItem>
+  // const { isAuthenticated } = isAuth;
+  const isAuthenticated = checkAuth();
+  return (
+    <Box boxShadow="lg" bg="white" color="black" h={65} marginTop={2} w="100%">
+      <Box w="container.lg" margin="auto">
+        <Flex justifyContent="center" align="center">
+          <Box>
+            <Link to="/">
+              <Text fontSize="4xl">WRITER</Text>
+            </Link>
+          </Box>
+          <Spacer />
+          <Box>
+            <Stack direction="row">
+              {isAuthenticated ? (
+                <>
+                  <AiOutlineSearch size={iconSize} />
+                  <IoIosNotificationsOutline size={iconSize} />
+                  <FiBookmark size={iconSize} />
+                  <Menu>
+                    <MenuButton
+                      cursor="pointer"
+                      size="sm"
+                      as={Avatar}
+                      colorScheme="pink"
+                    >
+                      <Wrap>
+                        <WrapItem>
+                          <Avatar
+                            size="sm"
+                            name="Kent Dodds"
+                            src="https://bit.ly/kent-c-dodds"
+                          />
+                        </WrapItem>
+                      </Wrap>
+                    </MenuButton>
+                    <MenuList>
+                      <MenuGroup>
+                        <MenuItem>
                           <Link to="/profile">
                             <Flex alignItems="center" justifyContent="center">
                               <Box flex={1}>
@@ -109,63 +91,62 @@ class Navigation extends React.Component {
                                 <Text>Kent C. Dodds</Text>
                               </Box>
                             </Flex>
-</Link>
-                          </MenuItem>
+                          </Link>
+                        </MenuItem>
 
-                          <MenuDivider />
-                          {route1.map((item, _) => (
-                            <MenuItem key={item.id}>
-                              <Link to={item.path}>{item.route}</Link>
-                            </MenuItem>
-                          ))}
-                          <MenuDivider />
-                          {route2.map((item, _) => (
-                            <MenuItem key={item.id}>
+                        <MenuDivider />
+                        {route1.map((item, _) => (
+                          <MenuItem key={item.id}>
                             <Link to={item.path}>{item.route}</Link>
                           </MenuItem>
-                          ))}
-                          <MenuDivider />
-                          <MenuItem onClick={() => handleLogout()}>
-                            Logout
+                        ))}
+                        <MenuDivider />
+                        {route2.map((item, _) => (
+                          <MenuItem key={item.id}>
+                            <Link to={item.path}>{item.route}</Link>
                           </MenuItem>
-                        </MenuGroup>
-                      </MenuList>
-                    </Menu>
-                  </>
-                ) : (
-                  <>
-                    <Button variant="ghost">
-                      <Link to="/register">Sign In</Link>
-                    </Button>
-                    <Button variant="outline">
-                      <Link to="/login">Get Started</Link>
-                    </Button>
-                  </>
-                )}
-              </Stack>
-            </Box>
-          </Flex>
-        </Box>
+                        ))}
+                        <MenuDivider />
+                        <MenuItem onClick={() => handleLogout()}>
+                          Logout
+                        </MenuItem>
+                      </MenuGroup>
+                    </MenuList>
+                  </Menu>
+                </>
+              ) : (
+                <>
+                  <Button variant="ghost">
+                    <Link to="/register">Sign In</Link>
+                  </Button>
+                  <Button variant="outline">
+                    <Link to="/login">Get Started</Link>
+                  </Button>
+                </>
+              )}
+            </Stack>
+          </Box>
+        </Flex>
       </Box>
-    );
-  }
-}
+    </Box>
+  );
+};
 
 const mapStateToProps = (state) => ({
-    isAuth: state.auth,
-  });
+  isAuth: state.auth,
+});
 
 const mapDispatchToPros = (dispatch) => ({
-    logout: () =>
-      dispatch({
-        type: Auth.USER_LOGGED_OUT,
-      }),
-    login: (payload) =>
-      dispatch({
-        type: Auth.USER_LOGGED_IN,
-        payload,
-      }),
-  });
+  logout: () =>
+    dispatch({
+      type: Auth.USER_LOGGED_OUT,
+    }),
+  login: (payload) =>
+    dispatch({
+      type: Auth.USER_LOGGED_IN,
+      payload,
+    }),
+});
 
 export default connect(
   mapStateToProps,

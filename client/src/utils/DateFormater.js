@@ -1,5 +1,5 @@
-import moment from "moment"
+import moment from "moment";
 
 export const humanReadableDate = (date) => {
-    return moment(date).format('LL')
-}
+  return moment(date).format("LL");
+};

@@ -18,6 +18,31 @@ const getPost = async (args, req) => {
       };
 }
 
+const getPostByUser = async (parent,_, {req}) => {
+    console.log(req.isAuth);
+    if (!req.isAuth) {
+        const error = new Error('Not Authenticated');
+        error.code = 401;
+        throw error;
+    }
+    const user = await User.findById(req.userId);
+
+    const postWithUser = user.populate('posts');
+    console.log(postWithUser);
+    const p = postWithUser;
+    const totalPosts = 3
+    return {
+        posts:
+          {
+            ...p._doc,
+            _id: p._id.toString(),
+            createdAt: p.createdAt.toISOString(),
+            updatedAt: p.updatedAt.toISOString(),
+          }
+        ,
+        totalPosts: totalPosts,
+      }
+}
 const createNewPost = async (parent, { postInput }, { req }) => {
     if (!req.isAuth) {
         const error = new Error("Not Authenticated");
@@ -59,4 +84,4 @@ const createNewPost = async (parent, { postInput }, { req }) => {
         updatedAt: createdPost.updatedAt.toString(),
     };
 };
-module.exports =  {getPost,createNewPost}
+module.exports =  {getPost,createNewPost,getPostByUser}

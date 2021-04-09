@@ -1,13 +1,14 @@
-import React, { Component } from "react";
+import React from "react";
 import { Redirect, Route } from "react-router-dom";
-import Cookies from 'js-cookie';
+
+import { checkAuth } from "../utils/checkAuth";
 
 const PublicRouts = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
       render={(props) =>
-       !Cookies.get('access_token')? (
+        checkAuth() === false ? (
           <Component {...props} />
         ) : (
           <Redirect to="/dashboard" />

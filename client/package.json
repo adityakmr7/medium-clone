@@ -5,14 +5,6 @@
   "engines": {
     "node": "14.x"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged":{
-    "src/**/*.{js,jsx}": ["eslint", "pretty-quick — staged", "git add"]
-  },
   "dependencies": {
     "@apollo/client": "^3.3.11",
     "@chakra-ui/icons": "1.0.7",
@@ -43,7 +35,14 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,json,css": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "eslintConfig": {
     "extends": [
@@ -69,10 +68,9 @@
     "eslint-config-airbnb": "18.2.1",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-prettier": "3.3.1",
     "eslint-plugin-react": "7.23.1",
     "husky": "6.0.0",
-    "lint-staged": "10.5.4",
-    "prettier": "2.2.1",
-    "pretty-quick": "3.1.0"
+    "lint-staged": "10.5.4"
   }
 }

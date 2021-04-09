@@ -13,9 +13,7 @@ export const GET_ALL_POST = gql`
         creator {
           _id
           username
-          
         }
-        
       }
       totalPosts
     }
