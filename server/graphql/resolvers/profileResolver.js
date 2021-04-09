@@ -43,4 +43,19 @@ const updateUserProfile = async (parent, { profileInput }, { req }) => {
   
 };
 
-module.exports = {updateUserProfile}
+const getUserProfile = async (parent, _, { req }) => {
+    if (!req.userId || !req.isAuth) {
+        const error = new Error('Not Authenticated');
+        error.code = 401;
+        throw error;
+    }
+    const profile = await Profile.findOne({ user: req.userId });
+    return {
+        ...profile._doc,
+        _id: profile._id.toString(),
+        createdAt:profile.createdAt.toString(),
+        updatedAt: profile.updatedAt.toString(),
+    }
+  
+} 
+module.exports = {updateUserProfile,getUserProfile}

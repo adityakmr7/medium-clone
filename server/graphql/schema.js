@@ -56,11 +56,22 @@ module.exports = gql`
     profilePic: String
     username: String
     url: String
-  },
+  }
+  type ProfileData {
+    _id: ID!
+    username:String
+    url:String
+    bio: String
+    firstName: String
+    lastName:String
+    createdAt: String!
+    updatedAt: String! 
+  }
   type Query {
     login(email: String, password: String): AuthData!
     posts: PostData
     postsByUser:PostData
+    userProfile: ProfileData
   }
   type Mutation {
     signUpUser(userInput: signupInput): User!
