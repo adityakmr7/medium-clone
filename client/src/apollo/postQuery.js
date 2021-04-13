@@ -10,6 +10,7 @@ export const GET_ALL_POST = gql`
         content
         createdAt
         updatedAt
+        slug
         creator {
           _id
           username
@@ -30,6 +31,7 @@ export const GET_POST_BY_USER = gql`
         content
         createdAt
         updatedAt
+        slug
         creator {
           _id
           username

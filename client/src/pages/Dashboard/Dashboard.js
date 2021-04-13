@@ -18,8 +18,8 @@ const Dashboard = (props) => {
     return <MLoader />;
   }
 
-  const handleNavigateToDetail = (id) => {
-    props.history.push(`/dashboard/${id}`);
+  const handleNavigateToDetail = (id, slug) => {
+    props.history.push(`/dashboard/${id}/${slug}`);
   };
   console.log("dashboardData", data);
   return (

@@ -10,9 +10,10 @@ function MCard({
   createdAt,
   updatedAt,
   creator,
+  slug,
 }) {
   return (
-    <Box onClick={() => onClick(_id)} boxShadow="lg" m={2}>
+    <Box onClick={() => onClick(_id, slug)} boxShadow="lg" m={2}>
       <Box marginLeft={5} margin="10">
         <Text fontSize="5xl">{title}</Text>
         <Text>{content}</Text>

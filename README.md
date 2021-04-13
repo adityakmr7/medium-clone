@@ -2,7 +2,7 @@
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/adityakmr7/medium-clone/blob/main/LICENSE)
 
-## Teach stack
+## Tech stack
 
     - NodeJS
     - GraphQl
@@ -10,7 +10,9 @@
     - MongoDB
     - Apollo
 
-### .env Setup
+### server/.env Setup
+
+</hr>
 
 Create a .env file in root directory and assign all these field.
 Currently We are using MongoDB Atlas
@@ -23,6 +25,20 @@ APP_PORT = 8080
 ```
 
 ## How to run project
+
+## Client
+
+```
+    cd client && npm install  && cd ..
+```
+
+## Server
+
+```
+    cd server && npm install && cd ..
+```
+
+## Complete app
 
 ```
     npm install

@@ -14,6 +14,7 @@ import CreatePost from "./pages/Dashboard/CreatePost";
 import { Box } from "@chakra-ui/layout";
 import Profile from "./pages/Dashboard/Profile";
 import NewStory from "./pages/Dashboard/NewStory";
+import Settings from "./pages/Dashboard/Settings";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <PrivateRoute path="/create" exact component={CreatePost} />
           <PrivateRoute path="/dashboard/:id" exact component={PostDetail} />
           <PrivateRoute path="/profile" exact component={Profile} />
+          <PrivateRoute path="/settings" exact component={Settings} />
         </Switch>
       </Box>
     </Main>
