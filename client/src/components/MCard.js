@@ -13,7 +13,13 @@ function MCard({
   slug,
 }) {
   return (
-    <Box onClick={() => onClick(_id, slug)} boxShadow="lg" m={2}>
+    <Box
+      paddingTop={3}
+      paddingBottom={2}
+      onClick={() => onClick(_id, slug)}
+      boxShadow="lg"
+      m={2}
+    >
       <Box marginLeft={5} margin="10">
         <Text fontSize="5xl">{title}</Text>
         <Text>{content}</Text>

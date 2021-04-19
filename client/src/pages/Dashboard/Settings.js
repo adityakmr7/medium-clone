@@ -50,7 +50,6 @@ const navigationArr = [
 ];
 
 function Settings(props) {
-  console.log("path", props);
   const { pathname } = props.history.location;
   return (
     <Flex color="black">

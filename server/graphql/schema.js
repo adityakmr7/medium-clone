@@ -72,6 +72,7 @@ module.exports = gql`
     posts: PostData
     postsByUser:PostData
     userProfile: ProfileData
+    getPostDetail(_id: String): Post
   }
   type Mutation {
     signUpUser(userInput: signupInput): User!

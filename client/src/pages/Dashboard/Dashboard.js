@@ -21,7 +21,7 @@ const Dashboard = (props) => {
   const handleNavigateToDetail = (id, slug) => {
     props.history.push(`/dashboard/${id}/${slug}`);
   };
-  console.log("dashboardData", data);
+
   return (
     <Box margin="auto" width="100%">
       <Flex flexWrap width="100%" flexDir="column">

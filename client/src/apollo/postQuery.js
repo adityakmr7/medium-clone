@@ -41,3 +41,14 @@ export const GET_POST_BY_USER = gql`
     }
   }
 `;
+
+export const GET_POST_DETAIL = gql`
+  query getPostDetail($id: String!) {
+    getPostDetail(_id: $id) {
+      _id
+      title
+      slug
+      content
+    }
+  }
+`;

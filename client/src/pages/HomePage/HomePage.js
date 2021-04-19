@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import React, { Component } from "react";
 import { GET_ALL_POST } from "../../apollo/postQuery";
+import MFadeIn from "../../components/animations/MFadeIn";
 import MCard from "../../components/MCard";
 import MLoader from "../../components/MLoader";
 import Navigation from "../../components/Navigation";
@@ -21,7 +22,7 @@ const HomePage = (props) => {
   }
 
   const handleNavigateToDetail = (id, slug) => {
-    props.history.push(`/dashboard/${id}/${slug}`);
+    props.history.push(`/${id}/${slug}`);
   };
   return (
     <Box margin="auto" width="100%">
@@ -30,7 +31,11 @@ const HomePage = (props) => {
           data.posts &&
           data.posts.posts &&
           data.posts.posts.map((post, i) => {
-            return <MCard onClick={handleNavigateToDetail} key={i} {...post} />;
+            return (
+              <MFadeIn>
+                <MCard onClick={handleNavigateToDetail} key={i} {...post} />
+              </MFadeIn>
+            );
           })}
       </Flex>
     </Box>

@@ -1,4 +1,4 @@
-const { getPost, createNewPost,getPostByUser } = require("./resolvers/postResolver")
+const { getPost, getPostDetail,createNewPost,getPostByUser } = require("./resolvers/postResolver")
 const { loginUser, registerUser } = require("./resolvers/userResolver");
 const { updateUserProfile, getUserProfile } = require("./resolvers/profileResolver");
 
@@ -7,7 +7,8 @@ module.exports = {
     posts: getPost,
     login: loginUser,
     postsByUser: getPostByUser,
-    userProfile: getUserProfile
+    userProfile: getUserProfile,
+    getPostDetail: getPostDetail
   },
     Mutation: {
       signUpUser: registerUser,

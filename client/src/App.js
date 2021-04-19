@@ -30,6 +30,7 @@ function App() {
           <PrivateRoute path="/dashboard/:id" exact component={PostDetail} />
           <PrivateRoute path="/profile" exact component={Profile} />
           <PrivateRoute path="/settings" exact component={Settings} />
+          <PublicRoute path="/:id/:slug" exact component={PostDetail} />
         </Switch>
       </Box>
     </Main>

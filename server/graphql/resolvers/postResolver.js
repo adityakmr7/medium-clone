@@ -18,6 +18,23 @@ const getPost = async (args, req) => {
       };
 }
 
+
+const getPostDetail = async (parent, {_id}, { req }) => {
+  
+  const post = await Post.findById(_id);
+  if (!post) {
+    const error = new Error('Sorry Something Went Wrong!');
+    error.code = 401;
+    throw error;
+  }
+  return {
+    ...post._doc,
+    _id: post._id.toString(),
+    createdAt: post.createdAt.toISOString(),
+    updatedAt: post.updatedAt.toISOString(),
+  }
+}
+
 // Find Posts by user id 
 const getPostByUser = async (parent,_, {req}) => {
     console.log(req.isAuth);
@@ -82,4 +99,4 @@ const createNewPost = async (parent, { postInput }, { req }) => {
         updatedAt: createdPost.updatedAt.toString(),
     };
 };
-module.exports =  {getPost,createNewPost,getPostByUser}
+module.exports =  {getPost,createNewPost,getPostByUser,getPostDetail}
