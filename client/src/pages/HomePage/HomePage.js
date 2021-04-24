@@ -25,7 +25,7 @@ const HomePage = (props) => {
     props.history.push(`/${id}/${slug}`);
   };
   return (
-    <Box margin="auto" width="100%">
+    <Box margin="auto">
       <Flex width="100%" flexDirection="column">
         {data &&
           data.posts &&

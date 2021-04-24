@@ -52,3 +52,15 @@ export const GET_POST_DETAIL = gql`
     }
   }
 `;
+
+export const CREATE_POST = gql`
+  mutation createPost($title: String!, $content: String!, $imageUrl: String!) {
+    createPost(
+      postInput: { title: $title, content: $content, imageUrl: $imageUrl }
+    ) {
+      title
+      content
+      imageUrl
+    }
+  }
+`;

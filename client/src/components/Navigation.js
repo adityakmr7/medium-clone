@@ -37,8 +37,15 @@ const Navigation = ({ history, isAuth }) => {
   // const { isAuthenticated } = isAuth;
   const isAuthenticated = checkAuth();
   return (
-    <Box boxShadow="lg" bg="white" color="black" h={65} marginTop={2} w="100%">
-      <Box w="container.lg" margin="auto">
+    <Box
+      boxShadow="lg"
+      display={{ lg: "flex" }}
+      bg="white"
+      color="black"
+      h={65}
+      marginTop={2}
+    >
+      <Box mx={"2%"} w="100%">
         <Flex justifyContent="center" align="center">
           <Box>
             <Link to="/">
