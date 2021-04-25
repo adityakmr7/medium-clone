@@ -32,8 +32,8 @@ const HomePage = (props) => {
           data.posts.posts &&
           data.posts.posts.map((post, i) => {
             return (
-              <MFadeIn>
-                <MCard onClick={handleNavigateToDetail} key={i} {...post} />
+              <MFadeIn key={i}>
+                <MCard onClick={handleNavigateToDetail} {...post} />
               </MFadeIn>
             );
           })}

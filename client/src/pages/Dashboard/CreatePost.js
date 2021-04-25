@@ -5,7 +5,8 @@ import { Box, Stack, Text } from "@chakra-ui/layout";
 import { Spinner } from "@chakra-ui/spinner";
 import { Textarea } from "@chakra-ui/textarea";
 import { Formik } from "formik";
-import React from "react";
+import React, { useState, useRef } from "react";
+import { Editor, EditorState, RichUtils } from "draft-js";
 import * as Yup from "yup";
 import { CREATE_POST } from "../../apollo/postQuery";
 
@@ -36,68 +37,42 @@ const CreatePost = () => {
       })
       .catch((err) => console.log(err));
   };
-  const validation = Yup.object().shape({
-    title: Yup.string().min(2, "Too Short").required("Title Required"),
-    content: Yup.string().min(5, "Too Short").required("Content Required"),
-    imageUrl: Yup.string().required("Image is Required"),
-  });
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const editorRef = useRef(null);
+  const handleKeyCommand = (command, editorState) => {
+    const newState = RichUtils.handleKeyCommand(editorState, "BOLD");
+
+    if (newState) {
+      onChange(newState);
+      return "handled";
+    }
+    return "not-handled";
+  };
+  const onChange = (editorState) => {
+    setEditorState(editorState);
+  };
+  const focusEditor = () => {
+    editorRef.current.focus();
+  };
+  console.log("editorState", editorState);
   return (
     <Box>
-      <Box margin="auto" width="container.md" marginTop={10}>
-        <Formik
-          initialValues={{ title: "", content: "", imageUrl: "" }}
-          validationSchema={validation}
-          onSubmit={async (values, { setSubmitting }) => {
-            setSubmitting(true);
-            await handleFormSubmit(values);
-            setSubmitting(false);
-          }}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting,
-            setFieldValue,
-          }) => (
-            <Stack>
-              <Input
-                value={values.title}
-                type="text"
-                name="title"
-                onChange={handleChange}
-                size="lg"
-                placeholder="Title"
-              />
-              {errors.title ? <Text>{errors.title}</Text> : null}
-              <Textarea
-                size="lg"
-                type="text"
-                name="content"
-                onChange={handleChange}
-                placeholder="Content"
-              />
-              {errors.content ? <Text>{errors.content}</Text> : null}
-
-              <Input
-                type="file"
-                onChange={(event) => {
-                  setFieldValue("imageUrl", event.currentTarget.files[0]);
-                }}
-                name="imageUrl"
-                placeholder="Add Image"
-              />
-              {errors.imageUrl ? <Text>{errors.imageUrl}</Text> : null}
-
-              <Button onClick={handleSubmit}>
-                {isSubmitting ? <Spinner /> : "Create Post"}
-              </Button>
-            </Stack>
-          )}
-        </Formik>
+      <Box
+        onCLick={focusEditor}
+        margin="auto"
+        width="container.md"
+        marginTop={10}
+        borderWidth={"0.5px"}
+        borderColor="grey"
+        borderStyle="solid"
+        minHeight="6em"
+      >
+        <Editor
+          ref={editorRef}
+          handleKeyCommand={handleKeyCommand}
+          editorState={editorState}
+          onChange={onChange}
+        />
       </Box>
     </Box>
   );
