@@ -27,7 +27,11 @@ function App() {
           <PublicRoute path="/register" exact component={Register} />
           <PrivateRoute path="/dashboard" exact component={Dashboard} />
           <PrivateRoute path="/create" exact component={CreatePost} />
-          <PrivateRoute path="/dashboard/:id" exact component={PostDetail} />
+          <PrivateRoute
+            path="/dashboard/:id/:slug"
+            exact
+            component={PostDetail}
+          />
           <PrivateRoute path="/profile" exact component={Profile} />
           <PrivateRoute path="/settings" exact component={Settings} />
           <PublicRoute path="/:id/:slug" exact component={PostDetail} />

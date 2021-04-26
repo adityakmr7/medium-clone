@@ -10,7 +10,7 @@ module.exports = gql`
     creator: User!
     createdAt: String!
     updatedAt: String!
-    slug:String!
+    slug: String!
   }
   type PostData {
     posts: [Post!]!
@@ -20,8 +20,8 @@ module.exports = gql`
     _id: ID!
     firstName: String!
     lastName: String!
-    bio:String!
-    profilePic: String!
+    bio: String!
+    profilePic: String
     username: String!
     url: String!
   }
@@ -52,32 +52,32 @@ module.exports = gql`
   input profileInputData {
     firstName: String!
     lastName: String!
-    bio:String
+    bio: String
     profilePic: String
     username: String
     url: String
   }
   type ProfileData {
     _id: ID!
-    username:String
-    url:String
+    username: String
+    url: String
     bio: String
     firstName: String
-    lastName:String
+    lastName: String
     createdAt: String!
-    updatedAt: String! 
+    updatedAt: String!
   }
   type Query {
     login(email: String, password: String): AuthData!
     posts: PostData
-    postsByUser:PostData
-    userProfile: ProfileData
+    postsByUser: PostData
+    userProfile: Profile
     getPostDetail(_id: String): Post
   }
   type Mutation {
     signUpUser(userInput: signupInput): User!
     createPost(postInput: postInputData): Post!
-    updateProfile(profileInput: profileInputData) : Profile!
+    updateProfile(profileInput: profileInputData): Profile!
   }
   schema {
     query: Query

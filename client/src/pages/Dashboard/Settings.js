@@ -1,5 +1,9 @@
 import React from "react";
 import { Flex, Box, Text, Divider, Link, Button } from "@chakra-ui/react";
+import Profile from "../../components/SettingsSubComponent/Profile";
+import { useQuery } from "@apollo/client";
+import MLoader from "../../components/MLoader";
+import { GET_PROFILE } from "../../apollo/profileQuery";
 
 const navigationArr = [
   {
@@ -51,6 +55,7 @@ const navigationArr = [
 
 function Settings(props) {
   const { pathname } = props.history.location;
+
   return (
     <Flex color="black">
       <Box flex={1}>
@@ -80,31 +85,7 @@ function Settings(props) {
       </Box>
       <Box flex={4}>
         <Box marginTop={10}>
-          <Text fontSize={20} fontWeight="bold" textColor="blackAlpha.900">
-            Profile
-          </Text>
-          <Divider marginTop={5} />
-          <Box display="flex" alignItems="center" flexDirection="row">
-            <Box mt={6} flex={1}>
-              <Text mb={5}>Name</Text>
-
-              <Text>aditya kumar</Text>
-              <Divider width={"70%"} mt={2} mb={4} />
-              <Text fontSize={12} noOfLines={2}>
-                Your name appears on your Profile page, <br /> as your byline,
-                and in your responses. It is a required field.
-              </Text>
-            </Box>
-            <Box>
-              <Button
-                borderRadius={50}
-                colorScheme="blackAlpha"
-                variant="outline"
-              >
-                Edit
-              </Button>
-            </Box>
-          </Box>
+          <Profile />
         </Box>
       </Box>
     </Flex>

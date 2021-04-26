@@ -7,7 +7,10 @@ import MError from "../../components/MError";
 import MLoader from "../../components/MLoader";
 const PostDetail = (props) => {
   const path = props.history.location.pathname;
-  const id = path.split("/")[1];
+  const pathLength = path.split("/").length;
+  const index = pathLength === 4 ? 2 : 1;
+  const id = path.split("/")[index];
+
   const { loading, error, data } = useQuery(GET_POST_DETAIL, {
     variables: { id: id },
   });
@@ -19,6 +22,7 @@ const PostDetail = (props) => {
   }
 
   const { title, content, slug } = data.getPostDetail;
+  console.log("Postdetail", data, id);
   return (
     <Box>
       <Text fontSize="6xl">{title}</Text>
