@@ -3,27 +3,25 @@ const validator = require("validator");
 const User = require("../../models/User");
 
 const getPost = async (args, req) => {
-    const posts = await Post.find().sort({ createdAt: -1 }).populate('creator');
-      const totalPosts = await Post.find().countDocuments();
+  const posts = await Post.find().sort({ createdAt: -1 }).populate("creator");
+  const totalPosts = await Post.find().countDocuments();
+  return {
+    posts: posts.map((p) => {
       return {
-        posts: posts.map((p) => {
-          return {
-            ...p._doc,
-            _id: p._id.toString(),
-            createdAt: p.createdAt.toISOString(),
-            updatedAt: p.updatedAt.toISOString(),
-          };
-        }),
-        totalPosts: totalPosts,
+        ...p._doc,
+        _id: p._id.toString(),
+        createdAt: p.createdAt.toISOString(),
+        updatedAt: p.updatedAt.toISOString(),
       };
-}
+    }),
+    totalPosts: totalPosts,
+  };
+};
 
-
-const getPostDetail = async (parent, {_id}, { req }) => {
-  
+const getPostDetail = async (parent, { _id }, { req }) => {
   const post = await Post.findById(_id);
   if (!post) {
-    const error = new Error('Sorry Something Went Wrong!');
+    const error = new Error("Sorry Something Went Wrong!");
     error.code = 401;
     throw error;
   }
@@ -32,71 +30,75 @@ const getPostDetail = async (parent, {_id}, { req }) => {
     _id: post._id.toString(),
     createdAt: post.createdAt.toISOString(),
     updatedAt: post.updatedAt.toISOString(),
-  }
-}
-
-// Find Posts by user id 
-const getPostByUser = async (parent,_, {req}) => {
-    console.log(req.isAuth);
-    if (!req.isAuth) {
-        const error = new Error('Not Authenticated');
-        error.code = 401;
-        throw error;
-    }
-    const posts = await Post.find({ creator: req.userId }).sort({createdAt : -1}).populate('creator');
-    const postsCount = await Post.find({ creator: req.userId }).countDocuments();
-  
-     return {
-        posts: posts.map((p) => {
-          return {
-            ...p._doc,
-            _id: p._id.toString(),
-            createdAt: p.createdAt.toISOString(),
-            updatedAt: p.updatedAt.toISOString(),
-          };
-        }),
-        totalPosts:postsCount
-      }
-}
-const createNewPost = async (parent, { postInput }, { req }) => {
-    if (!req.isAuth) {
-        const error = new Error("Not Authenticated");
-        error.code = 401;
-        throw error;
-    }
-    const { title, content, imageUrl } = postInput;
-    const errors = [];
-    if (validator.isEmpty(title) || !validator.isLength(title, { min: 4 })) {
-        errors.push({ message: "Title is invalid" });
-    }
-
-    if (errors.length > 0) {
-        const error = new Error("Invalid Input");
-        error.data = errors;
-        error.code = 402;
-        throw error;
-    }
-    const user = await User.findById(req.userId);
-    if (!user) {
-        const error = new Error("Invalid User");
-        error.code = 401;
-        throw error;
-    }
-    const post = new Post({
-        title,
-        content,
-        imageUrl,
-        creator: user,
-    });
-
-    const createdPost = await post.save();
-    user.posts.push(createdPost);
-    await user.save();
-    return {
-        ...createdPost._doc,
-        _id: createdPost._id.toString(),
-        createdAt: createdPost.createdAt.toString(),
-        updatedAt: createdPost.updatedAt.toString(),
-    };
+  };
 };
-module.exports =  {getPost,createNewPost,getPostByUser,getPostDetail}
+
+// Find Posts by user id
+const getPostByUser = async (parent, _, { req }) => {
+  console.log(req.isAuth);
+  if (!req.isAuth) {
+    const error = new Error("Not Authenticated");
+    error.code = 401;
+    throw error;
+  }
+  const posts = await Post.find({ creator: req.userId })
+    .sort({ createdAt: -1 })
+    .populate("creator");
+  const postsCount = await Post.find({ creator: req.userId }).countDocuments();
+  if (posts) {
+    console.log("getPostByUser", posts);
+    return {
+      posts: posts.map((p) => {
+        return {
+          ...p._doc,
+          _id: p._id.toString(),
+          createdAt: p.createdAt.toISOString(),
+          updatedAt: p.updatedAt.toISOString(),
+        };
+      }),
+      totalPosts: postsCount,
+    };
+  }
+};
+const createNewPost = async (parent, { postInput }, { req }) => {
+  if (!req.isAuth) {
+    const error = new Error("Not Authenticated");
+    error.code = 401;
+    throw error;
+  }
+  const { title, content, imageUrl } = postInput;
+  const errors = [];
+  if (validator.isEmpty(title) || !validator.isLength(title, { min: 4 })) {
+    errors.push({ message: "Title is invalid" });
+  }
+
+  if (errors.length > 0) {
+    const error = new Error("Invalid Input");
+    error.data = errors;
+    error.code = 402;
+    throw error;
+  }
+  const user = await User.findById(req.userId);
+  if (!user) {
+    const error = new Error("Invalid User");
+    error.code = 401;
+    throw error;
+  }
+  const post = new Post({
+    title,
+    content,
+    imageUrl,
+    creator: user,
+  });
+
+  const createdPost = await post.save();
+  user.posts.push(createdPost);
+  await user.save();
+  return {
+    ...createdPost._doc,
+    _id: createdPost._id.toString(),
+    createdAt: createdPost.createdAt.toString(),
+    updatedAt: createdPost.updatedAt.toString(),
+  };
+};
+module.exports = { getPost, createNewPost, getPostByUser, getPostDetail };

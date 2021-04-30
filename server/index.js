@@ -32,10 +32,11 @@ const startServer = async () => {
     context: ({ req, res }) => ({ req, res }),
   });
   app.use(cookieParser());
-
+  const UPLOAD_PATH = path.resolve(__dirname, "../assets/images");
+  // const UPLOAD_PATH = "images";
   const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, "assets/images");
+      cb(null, UPLOAD_PATH);
     },
     filename: (req, file, cb) => {
       cb(null, uuidv4() + "-" + file.originalname);
@@ -79,7 +80,7 @@ const startServer = async () => {
       .status(201)
       .json({ message: "File Stored", filePath: req.file.path });
   });
-
+  // TODO:  Need to implement Refresh Token
   app.use(async (req, res, next) => {
     const accessToken = req.cookies["access_token"];
     const refreshToken = req.cookies["refresh_token"];

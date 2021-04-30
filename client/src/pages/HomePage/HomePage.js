@@ -12,6 +12,7 @@ import React, { Component } from "react";
 import { GET_ALL_POST } from "../../apollo/postQuery";
 import MFadeIn from "../../components/animations/MFadeIn";
 import MCard from "../../components/MCard";
+import MError from "../../components/MError";
 import MLoader from "../../components/MLoader";
 import Navigation from "../../components/Navigation";
 
@@ -24,6 +25,12 @@ const HomePage = (props) => {
   const handleNavigateToDetail = (id, slug) => {
     props.history.push(`/${id}/${slug}`);
   };
+  if (data.posts.posts.length === 0) {
+    return <MError label="No Posts Yet" />;
+  }
+  if (error) {
+    return <MError />;
+  }
   return (
     <Box margin="auto">
       <Flex width="100%" flexDirection="column">
@@ -32,8 +39,8 @@ const HomePage = (props) => {
           data.posts.posts &&
           data.posts.posts.map((post, i) => {
             return (
-              <MFadeIn>
-                <MCard onClick={handleNavigateToDetail} key={i} {...post} />
+              <MFadeIn key={i}>
+                <MCard onClick={handleNavigateToDetail} {...post} />
               </MFadeIn>
             );
           })}

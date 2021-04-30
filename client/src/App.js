@@ -15,6 +15,7 @@ import { Box } from "@chakra-ui/layout";
 import Profile from "./pages/Dashboard/Profile";
 import NewStory from "./pages/Dashboard/NewStory";
 import Settings from "./pages/Dashboard/Settings";
+import Stories from "./pages/Dashboard/Stories";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             exact
             component={PostDetail}
           />
+          <PrivateRoute path="/stories" exact component={Stories} />
           <PrivateRoute path="/profile" exact component={Profile} />
           <PrivateRoute path="/settings" exact component={Settings} />
           <PublicRoute path="/:id/:slug" exact component={PostDetail} />
