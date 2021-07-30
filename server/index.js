@@ -3,7 +3,6 @@ const graphQlResolver = require("./graphql/resolvers");
 const { ApolloServer, gql } = require("apollo-server-express");
 const mongoose = require("mongoose");
 const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
@@ -16,13 +15,13 @@ const { v4: uuidv4 } = require("uuid");
 
 const startServer = async () => {
   const app = express();
-  require("dotenv").config();
+  // require("dotenv").config();
   var corsOptions = {
     origin: "http://localhost:3000",
     credentials: true, // <-- REQUIRED backend setting
   };
   app.use(cors(corsOptions));
-  app.use(bodyParser.json());
+  app.use(express.json());
 
   app.use(auth);
 
@@ -125,9 +124,10 @@ const startServer = async () => {
   server.applyMiddleware({ app, cors: false });
 
   const PORT = process.env.PORT || 8080;
-  const URL = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@medium-api.mrq0a.mongodb.net/medium?retryWrites=true&w=majority`;
+  const URL = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_NAME}.mrq0a.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+  const TEST_URL = `mongodb+srv://adityakmr:yQgKrE5EIiZKgwsq@medium-fullstack.mrq0a.mongodb.net/medium-fullstack?retryWrites=true&w=majority`;
   mongoose
-    .connect(URL, { useNewUrlParser: true, useUnifiedTopology: true })
+    .connect(TEST_URL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then((res) => {
       app.listen(PORT, () => {
         console.info(`App is running at ${PORT}`);

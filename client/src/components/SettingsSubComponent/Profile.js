@@ -9,21 +9,15 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 const Profile = () => {
   const { loading, error, data } = useQuery(GET_PROFILE);
-  if (error) {
-    return <MError />;
-  }
   if (loading) {
     return <MLoader />;
   }
+  if (error) {
+    return <MError />;
+  }
 
-  const {
-    firstName,
-    lastName,
-    profilePic,
-    url,
-    username,
-    bio,
-  } = data.userProfile;
+  const { name, profilePic, url, username, bio } = data.userProfile;
+
   const validation = Yup.object().shape({
     name: Yup.string().min(2, "Too Short").required("Title Required"),
     bio: Yup.string().min(5, "Too Short").required("Content Required"),
@@ -60,7 +54,7 @@ const Profile = () => {
               handleChange={handleChange}
               name="name"
               label="Name"
-              defaultValue={`${firstName} ${lastName}`}
+              defaultValue={name === null ? "Enter Your Name" : ""}
               description="Your name appears on your Profile page, <br /> as your byline, and
             in your responses. It is a required field."
               onClick={() => {}}
@@ -75,7 +69,7 @@ const Profile = () => {
             <MSettingsField
               imageUrl={profilePic ? profilePic : "https://bit.ly/broken-link"}
               label="Photo"
-              fullName={`${firstName} ${lastName}`}
+              fullName={name}
               defaultValue="https://bit.ly/broken-link"
               description="Your photo appears on your Profile page and with your stories across Medium.
             <br/>

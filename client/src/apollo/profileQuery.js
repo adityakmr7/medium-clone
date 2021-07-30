@@ -6,16 +6,14 @@ export const GET_PROFILE = gql`
       username
       url
       bio
-      firstName
-      lastName
+      name
       profilePic
     }
   }
 `;
 export const UPDATE_PROFILE = gql`
   mutation updateProfile(
-    $firstName: String!
-    $lastName: String
+    $name: String!
     $username: String!
     $bio: String!
     $profilePic: String!
@@ -23,16 +21,14 @@ export const UPDATE_PROFILE = gql`
   ) {
     updateProfile(
       profileInput: {
-        firstName: $firstName
+        name: $name
         username: $username
-        lastName: $lastName
         bio: $bio
         profilePic: $profilePic
         url: $url
       }
     ) {
-      firstName
-      lastName
+      name
       username
       bio
       profilePic

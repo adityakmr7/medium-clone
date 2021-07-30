@@ -18,9 +18,8 @@ module.exports = gql`
   }
   type Profile {
     _id: ID!
-    firstName: String!
-    lastName: String!
-    bio: String!
+    name: String
+    bio: String
     profilePic: String
     username: String!
     url: String!
@@ -50,8 +49,7 @@ module.exports = gql`
     content: String!
   }
   input profileInputData {
-    firstName: String!
-    lastName: String!
+    name: String!
     bio: String
     profilePic: String
     username: String
@@ -62,8 +60,7 @@ module.exports = gql`
     username: String
     url: String
     bio: String
-    firstName: String
-    lastName: String
+    name: String!
     createdAt: String!
     updatedAt: String!
   }

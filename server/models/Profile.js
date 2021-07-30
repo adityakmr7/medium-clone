@@ -4,10 +4,7 @@ const uniqueValidator = require("mongoose-unique-validator");
 const Schema = mongoose.Schema;
 const profileSchema = new mongoose.Schema(
   {
-    firstName: {
-      type: String,
-    },
-    lastName: {
+    name: {
       type: String,
     },
     bio: {
@@ -18,7 +15,6 @@ const profileSchema = new mongoose.Schema(
     },
     username: {
       type: String,
-      
     },
     url: {
       type: String,

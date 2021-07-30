@@ -21,16 +21,17 @@ const HomePage = (props) => {
   if (loading) {
     return <MLoader />;
   }
-
-  const handleNavigateToDetail = (id, slug) => {
-    props.history.push(`/${id}/${slug}`);
-  };
-  if (data.posts.posts.length === 0) {
-    return <MError label="No Posts Yet" />;
-  }
   if (error) {
     return <MError />;
   }
+  const handleNavigateToDetail = (id, slug) => {
+    props.history.push(`/${id}/${slug}`);
+  };
+
+  if (data.posts.posts.length === 0) {
+    return <MError label="No Posts Yet" />;
+  }
+
   return (
     <Box margin="auto">
       <Flex width="100%" flexDirection="column">
