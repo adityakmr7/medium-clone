@@ -7,6 +7,7 @@ import MError from "../MError";
 import MSettingsField from "../MSettingsField";
 import { Formik } from "formik";
 import * as Yup from "yup";
+
 const Profile = () => {
   const { loading, error, data } = useQuery(GET_PROFILE);
   if (loading) {
