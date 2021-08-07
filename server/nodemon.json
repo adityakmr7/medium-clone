@@ -1,8 +1,8 @@
 {
   "env": {
     "SECRET_KEY": "SOMESUPERSECRETKEY",
-    "DB_PASSWORD": "yQgKrE5EIiZKgwsq",
-    "DB_USERNAME ": "adityakmr",
+    "DB_PASSWORD": "hvaa5gGAebZa1X28",
+    "DB_USERNAME": "adityakmr",
     "DB_NAME": "medium-fullstack",
     "APP_PORT ": 8080
   }

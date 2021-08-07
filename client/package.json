@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "14.x"
+    "node": "16.x"
   },
   "dependencies": {
     "@apollo/client": "^3.3.11",
@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.1.5",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/user-event": "^12.7.1",
+    "draft-js": "0.11.7",
     "formik": "^2.2.6",
     "framer-motion": "^3.6.2",
     "graphql": "^15.5.0",

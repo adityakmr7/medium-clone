@@ -125,16 +125,16 @@ const startServer = async () => {
 
   const PORT = process.env.PORT || 8080;
   const URL = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_NAME}.mrq0a.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
-  const TEST_URL = `mongodb+srv://adityakmr:yQgKrE5EIiZKgwsq@medium-fullstack.mrq0a.mongodb.net/medium-fullstack?retryWrites=true&w=majority`;
+  // console.log(process.env);
   mongoose
-    .connect(TEST_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+    .connect(URL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then((res) => {
       app.listen(PORT, () => {
         console.info(`App is running at ${PORT}`);
       });
     })
     .catch((err) => {
-      console.log("Database Error" + err);
+      console.error("Database Error" + err);
     });
 };
 

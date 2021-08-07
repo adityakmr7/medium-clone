@@ -3,5 +3,10 @@
         "Chakra",
         "Deduplication",
         "Formik"
-    ]
+    ],
+    "[javascript]": {
+        "editor.formatOnPaste": true,
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+    }
 }

@@ -8,6 +8,7 @@ import { Formik } from "formik";
 import React from "react";
 import * as Yup from "yup";
 import { CREATE_POST } from "../../apollo/postQuery";
+import MEditor from "../../components/MEditor";
 
 const CreatePost = () => {
   const [createPost, { data, error, loading }] = useMutation(CREATE_POST);
@@ -44,7 +45,8 @@ const CreatePost = () => {
   return (
     <Box>
       <Box margin="auto" width="container.md" marginTop={10}>
-        <Formik
+        <MEditor />
+        {/* <Formik
           initialValues={{ title: "", content: "", imageUrl: "" }}
           validationSchema={validation}
           onSubmit={async (values, { setSubmitting }) => {
@@ -64,6 +66,7 @@ const CreatePost = () => {
             setFieldValue,
           }) => (
             <Stack>
+              <MEditor />
               <Input
                 value={values.title}
                 type="text"
@@ -97,7 +100,7 @@ const CreatePost = () => {
               </Button>
             </Stack>
           )}
-        </Formik>
+        </Formik> */}
       </Box>
     </Box>
   );
